@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <string.h>
+int main() {
+ int n,i,time=0,completed=0,min,shortest;
+ int at[20],bt[20],rt[20],wt[20],tat[20];
+ char pid[20][10];
+ float total_wt=0,total_tat=0;
+ scanf("%d",&n);
+ for(i=0;i<n;i++){
+ scanf("%s %d %d",pid[i],&at[i],&bt[i]);
+ rt[i]=bt[i];
+ }
+ while(completed!=n){
+ min=9999;
+ shortest=-1;
+ for(i=0;i<n;i++){
+ if(at[i]<=time && rt[i]>0 && rt[i]<min){
+ min=rt[i];
+ shortest=i;
+ }
+ }if(shortest==-1){
+ time++;
+ continue;
+ }
+ rt[shortest]--;
+ time++;
+ if(rt[shortest]==0){
+ completed++;
+ int finish=time;
+ wt[shortest]=finish-bt[shortest]-at[shortest];
+ if(wt[shortest]<0) wt[shortest]=0;
+ tat[shortest]=bt[shortest]+wt[shortest];
+ total_wt+=wt[shortest];
+ total_tat+=tat[shortest];
+ }
+ }
+ printf("Waiting Time:\n");
+ for(i=0;i<n;i++)
+ printf("%s %d\n",pid[i],wt[i]);
+ printf("Turnaround Time:\n");
+ for(i=0;i<n;i++)
+ printf("%s %d\n",pid[i],tat[i]);
+ printf("Average Waiting Time: %.1f\n",total_wt/n);
+ printf("Average Turnaround Time: %.1f\n",total_tat/n);
+ return 0;
+}
